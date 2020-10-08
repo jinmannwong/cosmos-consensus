@@ -145,7 +145,7 @@ func (aeon *aeonDetails) dkgOutput() *DKGOutput {
 	output.GroupPublicKey = aeon.aeonExecUnit.GroupPublicKey()
 	output.Generator = aeon.aeonExecUnit.Generator()
 	output.PublicKeyShares = make([]string, len(aeon.validators.Validators))
-	output.Qual = aeon.qual
+	output.Qual = make([]uint, len(aeon.validators.Validators))
 	publicKeyShares := aeon.aeonExecUnit.PublicKeyShares()
 	for i := 0; i < int(publicKeyShares.Size()); i++ {
 		output.PublicKeyShares[i] = publicKeyShares.Get(i)
