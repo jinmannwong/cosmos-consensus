@@ -164,7 +164,7 @@ func (entropyGenerator *EntropyGenerator) LoadEntropyKeyFiles(db dbm.DB, privVal
 	var aeonDetails *aeonDetails
 
 	pubKey, _ := privValidator.GetPubKey()
-	fmt.Printf("LoadEntropyKeyFiles: validator address: %X", pubKey.Address())
+	fmt.Printf("LoadEntropyKeyFiles: validator address: %X\n", pubKey.Address())
 
 	// Loop over the files trying to extract the keys and push them into the entropy generator
 	for _, fileToLoad := range keyFiles {
@@ -177,7 +177,7 @@ func (entropyGenerator *EntropyGenerator) LoadEntropyKeyFiles(db dbm.DB, privVal
 					// the height can be 0 which causes an error)
 					if len(aeonFile.PublicInfo.GroupPublicKey) != 0 {
 						vals, err1 = sm.LoadDKGValidators(db, aeonFile.PublicInfo.ValidatorHeight)
-						fmt.Printf("LoadEntropKeyFile: height %v, validators %v", aeonFile.PublicInfo.ValidatorHeight, vals)
+						fmt.Printf("LoadEntropKeyFile: height %v, validator hash %X, validators %v \n", aeonFile.PublicInfo.ValidatorHeight, vals.Hash(), vals)
 					}
 
 					if err1 == nil {
