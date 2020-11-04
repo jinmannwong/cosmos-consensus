@@ -11,6 +11,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/tendermint/tendermint/crypto"
+	"github.com/tendermint/tendermint/crypto/bls12_381"
 	"github.com/tendermint/tendermint/crypto/ed25519"
 	"github.com/tendermint/tendermint/libs/log"
 	"github.com/tendermint/tendermint/privval"
@@ -19,16 +20,16 @@ import (
 
 const (
 	keyFileContents = `{
-	"address": "D08FCA3BA74CF17CBFC15E64F9505302BB0E2748",
-	"pub_key": {
-		"type": "tendermint/PubKeyEd25519",
-		"value": "ZCsuTjaczEyon70nmKxwvwu+jqrbq5OH3yQjcK0SFxc="
-	},
-	"priv_key": {
-		"type": "tendermint/PrivKeyEd25519",
-		"value": "8O39AkQsoe1sBQwud/Kdul8lg8K9SFsql9aZvwXQSt1kKy5ONpzMTKifvSeYrHC/C76Oqturk4ffJCNwrRIXFw=="
-	}
-}`
+		"address": "9DBBEA2BE59503668693815F539447CB76FF0E39",
+		"pub_key": {
+		  "type": "tendermint/PubKeyBls",
+		  "value": "MGU4ZjFhYzc3MjI0ZmU4YTRjMGVmMWQ4MzA1ODBjZGQ0Y2UzMjY2MzQ3OTJiNjg5YTE0MTc1MDgyNjU3OTFiMGQ4OGFmYWUwOGZjMWU4NThhNmFhNmY1ZTdlMDkwNDBlMWNmZTJjODY5MGI5YTc4MGJkYTA3NGJmYTBiMjAwOTQ2OTZkYmJiM2M3ZTliMmFjZjc2M2IyY2JmNjNhYzJiZWQ5ZGY5NTM3MGMyOTIwMDM5Y2IxYThhZDkzMGFjOThk"
+		},
+		"priv_key": {
+		  "type": "tendermint/PrivKeyBls",
+		  "value": "MDFiYmQxNTRmYmNiNWIwNzQ3NmFhMGIwYTBkNTE2Nzc3MzY4ZmJkYzUxMjY2NDJmZDIwMjVkM2QwODUyZjc2MA=="
+		}
+	  }`
 
 	stateFileContents = `{
 	"height": "0",
@@ -51,7 +52,7 @@ const (
 		},
 		"validator": {
 			"pub_key_types": [
-				"ed25519"
+				"bls12_381"
 			]
 		},
 		"entropy": {
@@ -62,10 +63,10 @@ const (
 	},
 	"validators": [
 		{
-		"address": "D08FCA3BA74CF17CBFC15E64F9505302BB0E2748",
+		"address": "9DBBEA2BE59503668693815F539447CB76FF0E39",
 		"pub_key": {
-			"type": "tendermint/PubKeyEd25519",
-			"value": "ZCsuTjaczEyon70nmKxwvwu+jqrbq5OH3yQjcK0SFxc="
+			"type": "tendermint/PubKeyBls",
+			"value": "MGU4ZjFhYzc3MjI0ZmU4YTRjMGVmMWQ4MzA1ODBjZGQ0Y2UzMjY2MzQ3OTJiNjg5YTE0MTc1MDgyNjU3OTFiMGQ4OGFmYWUwOGZjMWU4NThhNmFhNmY1ZTdlMDkwNDBlMWNmZTJjODY5MGI5YTc4MGJkYTA3NGJmYTBiMjAwOTQ2OTZkYmJiM2M3ZTliMmFjZjc2M2IyY2JmNjNhYzJiZWQ5ZGY5NTM3MGMyOTIwMDM5Y2IxYThhZDkzMGFjOThk"
 		},
 		"power": "10",
 		"name": ""
@@ -101,7 +102,7 @@ func TestRemoteSignerPublicKeyCheckFailed(t *testing.T) {
 	harnessTest(
 		t,
 		func(th *TestHarness) *privval.SignerServer {
-			return newMockSignerServer(t, th, ed25519.GenPrivKey(), false, false)
+			return newMockSignerServer(t, th, bls12_381.GenPrivKey(), false, false)
 		},
 		ErrTestPublicKeyFailed,
 	)

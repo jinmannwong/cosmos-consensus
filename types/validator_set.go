@@ -670,7 +670,7 @@ func (vals *ValidatorSet) VerifyCommit(chainID string, blockID BlockID,
 			talliedVotingPower += val.VotingPower
 			blsKey, ok := val.PubKey.(bls12_381.PubKeyBls)
 			if !ok {
-				panic(fmt.Sprintf("incorrect key type for combined signatures"))
+				panic(fmt.Sprintf("incorrect key type for combined signatures %T", val.PubKey))
 			}
 			combinedPublicKey.Add(blsKey.RawString())
 			if voteBytes == nil {

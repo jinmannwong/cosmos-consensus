@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/tendermint/tendermint/crypto/ed25519"
+	"github.com/tendermint/tendermint/crypto/bls12_381"
 	tmtime "github.com/tendermint/tendermint/types/time"
 )
 
@@ -21,13 +21,13 @@ func TestGenesisBad(t *testing.T) {
 		[]byte(`{"chain_id":"mychain","validators":[{}]}`), // invalid validator
 		// missing pub_key type
 		[]byte(
-			`{"validators":[{"pub_key":{"value":"AT/+aaL1eB0477Mud9JMm8Sh8BIvOYlPGC9KkIUmFaE="},"power":"10","name":""}]}`,
+			`{"validators":[{"pub_key":{"value":"MGU4ZjFhYzc3MjI0ZmU4YTRjMGVmMWQ4MzA1ODBjZGQ0Y2UzMjY2MzQ3OTJiNjg5YTE0MTc1MDgyNjU3OTFiMGQ4OGFmYWUwOGZjMWU4NThhNmFhNmY1ZTdlMDkwNDBlMWNmZTJjODY5MGI5YTc4MGJkYTA3NGJmYTBiMjAwOTQ2OTZkYmJiM2M3ZTliMmFjZjc2M2IyY2JmNjNhYzJiZWQ5ZGY5NTM3MGMyOTIwMDM5Y2IxYThhZDkzMGFjOThk"},"power":"10","name":""}]}`,
 		),
 		// missing chain_id
 		[]byte(
 			`{"validators":[` +
 				`{"pub_key":{` +
-				`"type":"tendermint/PubKeyEd25519","value":"AT/+aaL1eB0477Mud9JMm8Sh8BIvOYlPGC9KkIUmFaE="` +
+				`"type":"tendermint/PubKeyBls","value":"MGU4ZjFhYzc3MjI0ZmU4YTRjMGVmMWQ4MzA1ODBjZGQ0Y2UzMjY2MzQ3OTJiNjg5YTE0MTc1MDgyNjU3OTFiMGQ4OGFmYWUwOGZjMWU4NThhNmFhNmY1ZTdlMDkwNDBlMWNmZTJjODY5MGI5YTc4MGJkYTA3NGJmYTBiMjAwOTQ2OTZkYmJiM2M3ZTliMmFjZjc2M2IyY2JmNjNhYzJiZWQ5ZGY5NTM3MGMyOTIwMDM5Y2IxYThhZDkzMGFjOThk"` +
 				`},"power":"10","name":""}` +
 				`]}`,
 		),
@@ -35,7 +35,7 @@ func TestGenesisBad(t *testing.T) {
 		[]byte(
 			`{"chain_id": "Lorem ipsum dolor sit amet, consectetuer adipiscing", "validators": [` +
 				`{"pub_key":{` +
-				`"type":"tendermint/PubKeyEd25519","value":"AT/+aaL1eB0477Mud9JMm8Sh8BIvOYlPGC9KkIUmFaE="` +
+				`"type":"tendermint/PubKeyBls","value":"MGU4ZjFhYzc3MjI0ZmU4YTRjMGVmMWQ4MzA1ODBjZGQ0Y2UzMjY2MzQ3OTJiNjg5YTE0MTc1MDgyNjU3OTFiMGQ4OGFmYWUwOGZjMWU4NThhNmFhNmY1ZTdlMDkwNDBlMWNmZTJjODY5MGI5YTc4MGJkYTA3NGJmYTBiMjAwOTQ2OTZkYmJiM2M3ZTliMmFjZjc2M2IyY2JmNjNhYzJiZWQ5ZGY5NTM3MGMyOTIwMDM5Y2IxYThhZDkzMGFjOThk"` +
 				`},"power":"10","name":""}` +
 				`]}`,
 		),
@@ -43,7 +43,7 @@ func TestGenesisBad(t *testing.T) {
 		[]byte(
 			`{"chain_id":"mychain", "validators":[` +
 				`{"address": "A", "pub_key":{` +
-				`"type":"tendermint/PubKeyEd25519","value":"AT/+aaL1eB0477Mud9JMm8Sh8BIvOYlPGC9KkIUmFaE="` +
+				`"type":"tendermint/PubKeyBls","value":"MGU4ZjFhYzc3MjI0ZmU4YTRjMGVmMWQ4MzA1ODBjZGQ0Y2UzMjY2MzQ3OTJiNjg5YTE0MTc1MDgyNjU3OTFiMGQ4OGFmYWUwOGZjMWU4NThhNmFhNmY1ZTdlMDkwNDBlMWNmZTJjODY5MGI5YTc4MGJkYTA3NGJmYTBiMjAwOTQ2OTZkYmJiM2M3ZTliMmFjZjc2M2IyY2JmNjNhYzJiZWQ5ZGY5NTM3MGMyOTIwMDM5Y2IxYThhZDkzMGFjOThk"` +
 				`},"power":"10","name":""}` +
 				`]}`,
 		),
@@ -60,14 +60,14 @@ func TestGenesisGood(t *testing.T) {
 	genDocBytes := []byte(
 		`{"genesis_time":"0001-01-01T00:00:00Z","chain_id":"test-chain-QDKdJr","consensus_params":null,"validators":[` +
 			`{"pub_key":{` +
-			`"type":"tendermint/PubKeyEd25519","value":"AT/+aaL1eB0477Mud9JMm8Sh8BIvOYlPGC9KkIUmFaE="` +
+			`"type":"tendermint/PubKeyBls","value":"MGU4ZjFhYzc3MjI0ZmU4YTRjMGVmMWQ4MzA1ODBjZGQ0Y2UzMjY2MzQ3OTJiNjg5YTE0MTc1MDgyNjU3OTFiMGQ4OGFmYWUwOGZjMWU4NThhNmFhNmY1ZTdlMDkwNDBlMWNmZTJjODY5MGI5YTc4MGJkYTA3NGJmYTBiMjAwOTQ2OTZkYmJiM2M3ZTliMmFjZjc2M2IyY2JmNjNhYzJiZWQ5ZGY5NTM3MGMyOTIwMDM5Y2IxYThhZDkzMGFjOThk"` +
 			`},"power":"10","name":""}` +
 			`],"app_hash":"","app_state":{"account_owner": "Bob"}}`,
 	)
 	_, err := GenesisDocFromJSON(genDocBytes)
 	assert.NoError(t, err, "expected no error for good genDoc json")
 
-	pubkey := ed25519.GenPrivKey().PubKey()
+	pubkey := bls12_381.GenPrivKey().PubKey()
 	// create a base gendoc from struct
 	baseGenDoc := &GenesisDoc{
 		ChainID:    "abc",
@@ -144,7 +144,7 @@ func TestGenesisValidatorHash(t *testing.T) {
 }
 
 func randomGenesisDoc() *GenesisDoc {
-	pubkey := ed25519.GenPrivKey().PubKey()
+	pubkey := bls12_381.GenPrivKey().PubKey()
 	return &GenesisDoc{
 		GenesisTime:     tmtime.Now(),
 		ChainID:         "abc",

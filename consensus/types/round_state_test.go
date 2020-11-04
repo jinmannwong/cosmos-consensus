@@ -5,7 +5,7 @@ import (
 
 	amino "github.com/tendermint/go-amino"
 
-	"github.com/tendermint/tendermint/crypto/ed25519"
+	"github.com/tendermint/tendermint/crypto/bls12_381"
 	"github.com/tendermint/tendermint/crypto/tmhash"
 	tmrand "github.com/tendermint/tendermint/libs/rand"
 	"github.com/tendermint/tendermint/types"
@@ -26,7 +26,7 @@ func BenchmarkRoundStateDeepCopy(b *testing.B) {
 			Total: 1000,
 		},
 	}
-	sig := make([]byte, ed25519.SignatureSize)
+	sig := make([]byte, bls12_381.SignatureSize)
 	for i := 0; i < nval; i++ {
 		commitSigs[i] = []types.CommitSig{(&types.Vote{
 			ValidatorAddress: types.Address(tmrand.Bytes(20)),

@@ -84,7 +84,7 @@ definition](https://github.com/tendermint/tendermint/blob/master/types/genesis.g
     },
     "validator": {
       "pub_key_types": [
-        "ed25519"
+        "bls12_381"
       ]
     }
   },

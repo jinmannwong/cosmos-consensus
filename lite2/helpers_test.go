@@ -32,7 +32,7 @@ func genPrivKeys(n int) privKeys {
 // func (pkz privKeys) Change(i int) privKeys {
 // 	res := make(privKeys, len(pkz))
 // 	copy(res, pkz)
-// 	res[i] = ed25519.GenPrivKey()
+// 	res[i] = bls12_381.GenPrivKey()
 // 	return res
 // }
 
